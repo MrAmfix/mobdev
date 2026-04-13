@@ -1,4 +1,4 @@
-package io.github.mobdev
+package io.github.mobdev.contactsapp
 
 import org.junit.Test
 

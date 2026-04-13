@@ -1,3 +1,26 @@
 <resources>
-    <string name="app_name">mobdev</string>
+    <string name="app_name">Контакты</string>
+    <string name="contacts_title">Контакты</string>
+
+    <string name="permission_required_title">Доступ к контактам</string>
+    <string name="permission_required_body">Приложению нужен доступ к вашим контактам, чтобы отобразить их. Данные остаются на устройстве и никуда не передаются.</string>
+    <string name="grant_access">Разрешить доступ</string>
+
+    <string name="permission_permanently_denied_title">Доступ запрещён</string>
+    <string name="permission_permanently_denied_body">Доступ к контактам был запрещён навсегда. Откройте Настройки и разрешите доступ к контактам вручную.</string>
+    <string name="open_settings">Открыть настройки</string>
+
+    <string name="search_contacts_hint">Поиск контактов…</string>
+    <string name="no_contacts_title">Контакты не найдены</string>
+    <string name="no_contacts_body">На вашем устройстве пока нет контактов.</string>
+    <string name="no_search_results">Нет результатов для «%1$s»</string>
+    <string name="clear_search">Очистить поиск</string>
+
+    <string name="detail_phone_label">Телефон</string>
+    <string name="detail_email_label">Электронная почта</string>
+    <string name="no_phone">Номер не указан</string>
+    <string name="no_email">Почта не указана</string>
+    <string name="unknown_contact">Неизвестный контакт</string>
+    <string name="navigate_back">Назад</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>
