@@ -41,6 +41,14 @@ class ChatRepository(private val store: CredentialStore) {
             reverse = true
         )
 
+    suspend fun loadNewer(channel: String, afterId: Long, limit: Int = 50): List<Message> =
+        api.channelMessages(
+            name = channel,
+            limit = limit,
+            lastKnownId = afterId,
+            reverse = false
+        )
+
     suspend fun sendText(channel: String, text: String): String {
         val name = store.login ?: error("Not logged in")
         val msg = Message(

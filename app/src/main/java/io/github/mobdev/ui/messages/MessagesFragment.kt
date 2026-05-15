@@ -20,8 +20,11 @@ import io.github.mobdev.databinding.FragmentMessagesBinding
 import io.github.mobdev.ui.NavigationViewModel
 import io.github.mobdev.util.ImageCompressor
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class MessagesFragment : Fragment(R.layout.fragment_messages) {
 
@@ -106,9 +109,21 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
             }
         })
 
+        val currentGen = navigationViewModel.state.value.selectGeneration
+        if (viewModel.lastConsumedSelectGen < currentGen) {
+            viewModel.lastConsumedSelectGen = currentGen
+            viewModel.loadInitial()
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { applyState(it) }
+                launch { viewModel.state.collect { applyState(it) } }
+                launch {
+                    while (coroutineContext.isActive) {
+                        delay(POLL_INTERVAL_MS)
+                        viewModel.pollNewer()
+                    }
+                }
             }
         }
     }
@@ -157,6 +172,7 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
 
     companion object {
         private const val ARG_CHANNEL = "channel"
+        private const val POLL_INTERVAL_MS = 3000L
         fun newInstance(channel: String): MessagesFragment = MessagesFragment().apply {
             arguments = Bundle().apply { putString(ARG_CHANNEL, channel) }
         }

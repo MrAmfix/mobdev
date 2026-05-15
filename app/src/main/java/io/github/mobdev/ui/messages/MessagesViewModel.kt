@@ -29,9 +29,7 @@ class MessagesViewModel(
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init {
-        loadInitial()
-    }
+    var lastConsumedSelectGen: Long = -1L
 
     fun loadInitial() {
         _state.update { it.copy(isLoading = true, errorText = null, endReached = false) }
@@ -74,6 +72,25 @@ class MessagesViewModel(
 
     fun refresh() {
         loadInitial()
+    }
+
+    fun pollNewer() {
+        val current = _state.value
+        if (current.isLoading || current.sending) return
+        val maxId = current.messages.maxOfOrNull { it.id?.toLongOrNull() ?: 0L } ?: 0L
+        if (maxId <= 0L) return
+        viewModelScope.launch {
+            runCatching { repository.loadNewer(channel, afterId = maxId) }
+                .onSuccess { newer ->
+                    if (newer.isEmpty()) return@onSuccess
+                    _state.update { s ->
+                        if (s.isLoading || s.sending) s
+                        else s.copy(
+                            messages = (s.messages + newer).distinctBy { it.id }
+                        )
+                    }
+                }
+        }
     }
 
     fun send(text: String) {

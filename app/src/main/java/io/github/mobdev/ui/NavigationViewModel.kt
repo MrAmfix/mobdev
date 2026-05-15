@@ -9,14 +9,21 @@ class NavigationViewModel : ViewModel() {
 
     data class State(
         val selectedChannel: String? = null,
-        val openImage: String? = null
+        val openImage: String? = null,
+        val selectGeneration: Long = 0L
     )
 
     private val _state = MutableStateFlow(State())
     val state: StateFlow<State> = _state.asStateFlow()
 
     fun selectChannel(name: String?) {
-        _state.value = _state.value.copy(selectedChannel = name, openImage = null)
+        val current = _state.value
+        val nextGen = if (name != null) current.selectGeneration + 1 else current.selectGeneration
+        _state.value = current.copy(
+            selectedChannel = name,
+            openImage = null,
+            selectGeneration = nextGen
+        )
     }
 
     fun openImage(link: String) {
