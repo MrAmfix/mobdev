@@ -1,3 +1,40 @@
 <resources>
-    <string name="app_name">mobdev</string>
+    <string name="app_name">Mobdev Chat</string>
+
+    <string name="login_title">Вход</string>
+    <string name="login_subtitle">Введите логин и пароль</string>
+    <string name="hint_login">Логин</string>
+    <string name="hint_password">Пароль</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="error_invalid_credentials">Неверный логин / пароль</string>
+    <string name="error_network">Не удалось подключиться к серверу</string>
+    <string name="error_empty_fields">Заполните логин и пароль</string>
+    <string name="dialog_ok">OK</string>
+
+    <string name="channels_title">Чаты</string>
+    <string name="channels_empty">Список каналов пуст</string>
+    <string name="action_logout">Выйти</string>
+    <string name="action_retry">Повторить</string>
+
+    <string name="messages_title">Чат</string>
+    <string name="hint_message">Сообщение</string>
+    <string name="cd_send">Отправить</string>
+    <string name="cd_back">Назад</string>
+    <string name="cd_image">Изображение</string>
+    <string name="cd_close">Закрыть</string>
+
+    <string name="placeholder_select_chat">Выберите чат</string>
+    <string name="channel_prefix">#</string>
+
+    <string name="error_session_expired">Сессия истекла, войдите снова</string>
+
+    <string name="cd_attach">Прикрепить картинку</string>
+    <string name="cd_new_channel">Новый чат</string>
+    <string name="dialog_new_channel_title">Новый чат</string>
+    <string name="dialog_new_channel_hint">Имя канала</string>
+    <string name="dialog_create">Создать</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="created_by_template">Chat created by %1$s</string>
+    <string name="error_pick_image">Не удалось открыть выбранную картинку</string>
+    <string name="error_empty_channel_name">Введите имя канала</string>
 </resources>
