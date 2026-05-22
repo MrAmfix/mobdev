@@ -72,6 +72,12 @@ class ChannelsViewModel(private val repository: ChatRepository) : ViewModel() {
 
     fun createChannel(name: String, firstMessage: String) {
         if (creating) return
+        if (!repository.networkMonitor.isOnline.value) {
+            viewModelScope.launch {
+                _events.emit(Event.Message("Нет подключения к интернету. Создание канала невозможно."))
+            }
+            return
+        }
         creating = true
         viewModelScope.launch {
             runCatching { repository.sendText(name, firstMessage) }

@@ -152,10 +152,20 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
 
     private fun applyState(state: MessagesViewModel.UiState) {
         val b = binding ?: return
-        b.swipeRefresh.isRefreshing = state.isLoading && state.messages.isEmpty()
-        adapter.submitList(state.messages.sortedByDescending { it.id?.toLongOrNull() ?: 0L })
-        b.sendButton.isEnabled = !state.sending
-        b.attachButton.isEnabled = !state.sending
+        b.swipeRefresh.isRefreshing = state.isLoading && state.allMessages.isEmpty()
+
+        val lm = b.messagesList.layoutManager as LinearLayoutManager
+        // position 0 is the visual bottom due to reverseLayout=true
+        val isAtBottom = lm.findFirstVisibleItemPosition() <= 1
+        val scrollDown = state.scrollToBottom || isAtBottom
+
+        adapter.submitList(state.allMessages) {
+            if (scrollDown) {
+                b.messagesList.scrollToPosition(0)
+                if (state.scrollToBottom) viewModel.consumeScrollToBottom()
+            }
+        }
+
         if (state.errorText != null) {
             Snackbar.make(b.root, state.errorText, Snackbar.LENGTH_LONG).show()
             viewModel.consumeError()
